@@ -1,0 +1,60 @@
+# Default directory to save the downloaded torrents.
+directory.default.set = /data/downloads
+
+# Default session directory.
+# Make sure you don't run multiple instance of rtorrent using the same session directory.
+session.path.set = /data/session
+
+# Encryption options, set to none (default) or any combination of the following:
+# allow_incoming, try_outgoing, require, require_RC4, enable_retry, prefer_plaintext
+#
+# The example value allows incoming encrypted connections, starts unencrypted
+# outgoing connections but retries with encryption if they fail, preferring
+# plaintext to RC4 encryption after the encrypted handshake
+#
+encryption = allow_incoming,try_outgoing,enable_retry,prefer_plaintext
+
+### THROTTLE SETTINGS
+
+# Global upload and download rate. "0" for unlimited.
+throttle.global_down.max_rate.set_kb = 0
+throttle.global_up.max_rate.set_kb = 0
+
+# Maximum and minimum number of peers to connect to per torrent.
+throttle.min_peers.normal.set = 1
+throttle.min_peers.normal.set = 1024
+
+# Same as above but for seeding completed torrents (-1 = same as downloading)
+throttle.min_peers.seed.set = 1
+throttle.max_peers.seed.set = 1024
+
+# Maximum number of simultaneous uploads per torrent.
+throttle.max_uploads.set = 1024
+
+### TRACKER RELATED SETTINGS
+
+# The socket to communicate over XMLRPC-C
+scgi_local = /data/rtorrent.sock
+schedule = chmod,0,0,"execute=chmod,777,/data/rtorrent.sock"
+
+# Port range to use for listening.
+network.port_range.set = 63256-63256
+
+# Start opening ports at a random position within the port range.
+network.port_random.set = no
+
+peer_exchange = no
+
+# Set whetever the client should try to connect to UDP trackers.
+use_udp_trackers = yes
+
+dht = disable
+
+tracker_numwant = -1
+
+### SCHEDULING
+#
+
+# Watch a directory for new torrents, and stop those that have been deleted.
+schedule = watch_directory,5,5,load_start=/data/watch/*.torrent
+schedule = untied_directory,5,5,stop_untied=/data/watch/*.torrent
