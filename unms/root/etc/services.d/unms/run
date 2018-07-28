@@ -1,7 +1,6 @@
 #!/usr/bin/with-contenv sh
 
 until pg_isready; do
-  echo "Waiting for postgres to come up..."
   sleep 1
 done
 
@@ -9,7 +8,6 @@ psql -U postgres -lqt | cut -d \| -f 1 | grep -qw $POSTGRES_DB
 if [ $? -ne 0 ]; then
   createdb -U postgres -O postgres $POSTGRES_DB
 fi
-
 
 cd /unms
 
