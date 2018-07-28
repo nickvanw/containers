@@ -22,8 +22,8 @@ RUN cd /unms && npm install && apk del ${devDeps}
 VOLUME ["/config"]
 
 ENV PGDATA=/config/pg \
-	POSTGRES_DB=unms \
-	PATH=/unms/node_modules/.bin:$PATH \
+  POSTGRES_DB=unms \
+  PATH=/unms/node_modules/.bin:$PATH \
   PUBLIC_HTTPS_PORT=443 \
   PUBLIC_WS_PORT=443 \
   SECURE_LINK_SECRET=supersecure
