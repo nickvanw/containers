@@ -13,3 +13,8 @@ Using `traefik`, I've just mapped those two two different virtual hosts, which a
 
 PRs are welcome, and I'll try to clean this up as time goes along, as well as maybe make sure it build against the latest. 
 
+
+### Warning
+
+Proceed at your own peril, this is a poorly written `Dockerfile` that runs software that's not meant to be run this way, nobody knows what you'll run in to. 
+
