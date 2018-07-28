@@ -10,5 +10,8 @@ if [ $? -ne 0 ]; then
 fi
 
 cd /unms
-
-NODE_ENV=production npm start
+if [ "$UNMS_LOGGING" = "1" ]; then
+  NODE_ENV=production npm start
+else
+  NODE_ENV=production npm start > /dev/null 2>&1
+fi

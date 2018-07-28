@@ -28,6 +28,7 @@ ENV PGDATA=/config/pg \
   PATH=/unms/node_modules/.bin:$PATH \
   PUBLIC_HTTPS_PORT=443 \
   PUBLIC_WS_PORT=443 \
-  SECURE_LINK_SECRET=supersecure
+  SECURE_LINK_SECRET=supersecure \
+  UNMS_LOGGING=1
 
 ENTRYPOINT ["/init"]
