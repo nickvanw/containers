@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv sh
+
+mkdir -p /config/redis
+chown redis:redis /config/redis
+chmod 0700 /config/redis

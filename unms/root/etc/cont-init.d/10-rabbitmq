@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
+chmod 0400 /var/lib/rabbitmq/.erlang.cookie

@@ -1,0 +1,11 @@
+#!/usr/bin/with-contenv sh
+
+mkdir -p /config/pg /run/postgresql
+chown postgres:postgres /config/pg /run/postgresql
+chmod 0700 /config/pg
+
+if [ -e /config/pg/postgresql.conf ]; then
+  echo "skipping pg configuration due to presenence of config dir"
+else
+  s6-setuidgid postgres initdb
+fi
