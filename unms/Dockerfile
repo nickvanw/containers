@@ -1,3 +1,4 @@
+FROM ubnt/unms:0.12.2 as unms
 FROM mhart/alpine-node:9.1.0
 LABEL maintainer="Nick Van Wiggeren <me@nvw.io>"
 
@@ -16,7 +17,8 @@ RUN devDeps="wget openssl-dev pcre-dev zlib-dev build-base libffi-dev python-dev
   && echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1) >> /var/lib/rabbitmq/.erlang.cookie
 
 # Copy the UNMS source code over
-COPY unms12/ unms/
+COPY --from=unms /home/app/unms /unms
+RUN rm -rf /unms/node_modules
 COPY root /
 
 RUN cd /unms && npm install && apk del ${devDeps}
