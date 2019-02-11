@@ -1,33 +1,31 @@
-FROM ubnt/unms:0.12.2 as unms
-FROM mhart/alpine-node:9.1.0
-LABEL maintainer="Nick Van Wiggeren <me@nvw.io>"
+FROM ubnt/unms:0.13.2 as unms
+FROM node:10-stretch-slim
 
-# Add s6-init so we can get this crap running
-ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.4.0/s6-overlay-amd64.tar.gz /tmp/
+ADD https://github.com/just-containers/s6-overlay/releases/download/v1.21.8.0/s6-overlay-amd64.tar.gz /tmp/
 RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C /
 
-# Add Dependencies - most of these will be removed later
-RUN devDeps="wget openssl-dev pcre-dev zlib-dev build-base libffi-dev python-dev build-base vips-dev fftw-dev make g++ su-exec gzip bash vim libcap sudo openssl pcre libgcc gettext" \
-  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories \
-  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories \
-  && echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories \
-  && apk add --no-cache ${devDeps} rabbitmq-server vips postgresql redis ca-certificates python \
-  && deluser rabbitmq \
-  && addgroup -S rabbitmq && adduser -S -h /var/lib/rabbitmq -G rabbitmq rabbitmq \
-  && echo $(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1) >> /var/lib/rabbitmq/.erlang.cookie
-
-# Copy the UNMS source code over
+# Copy this from the unms container because the code is not public
 COPY --from=unms /home/app/unms /unms
 RUN rm -rf /unms/node_modules
 COPY root /
 
-RUN cd /unms && npm install && apk del ${devDeps}
+# man page dir creation is a hack for postgres install
+RUN apt-get update \
+  && mkdir -p /usr/share/man/man1 \
+  && mkdir -p /usr/share/man/man7 \
+  && apt-get -y install python build-essential rabbitmq-server postgresql-9.6 postgresql-contrib-9.6 postgresql-client-9.6 libpq-dev redis-server
+RUN cd /unms && npm install
+
 VOLUME ["/config"]
 EXPOSE 8081 8082
 
+# We add postgres to the path so we can use the tools that underpin all the stuff
+# debian adds, I really just want to use `initdb` and `postgres`
 ENV PGDATA=/config/pg \
+  UNMS_PG_USER=postgres \
   POSTGRES_DB=unms \
-  PATH=/unms/node_modules/.bin:$PATH \
+  UNMA_PG_DATABASE=unms \
+  PATH=/unms/node_modules/.bin:$PATH:/usr/lib/postgresql/9.6/bin \
   PUBLIC_HTTPS_PORT=443 \
   PUBLIC_WS_PORT=443 \
   SECURE_LINK_SECRET=supersecure \
