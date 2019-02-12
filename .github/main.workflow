@@ -19,5 +19,5 @@ action "Docker Tag" {
   uses = "actions/action-builder/docker@master"
   needs = ["Docker Build"]
   runs = "make"
-  args = "tag"
+  args = "publish"
 }
