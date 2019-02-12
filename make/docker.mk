@@ -6,7 +6,7 @@ docker-lint: ## Run Dockerfile Lint on all dockerfiles.
 
 .PHONY: docker-build
 docker-build: ## Build the top level Dockerfile using the directory or $IMAGE_NAME as the name.
-	docker build -t $(IMAGE_NAME) .
+	docker build -q -t $(IMAGE_NAME) .
 
 .PHONY: docker-tag
 docker-tag: ## Tag the docker image using the tag script.

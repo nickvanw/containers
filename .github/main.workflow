@@ -16,7 +16,7 @@ action "Docker Build" {
 }
 
 action "Docker Tag" {
-  uses = "actions/docker/tag@master"
+  uses = "actions/action-builder/docker@master"
   needs = ["Docker Build"]
   runs = "make"
   args = "tag"
