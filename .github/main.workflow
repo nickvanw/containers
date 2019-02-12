@@ -1,6 +1,6 @@
 workflow "New workflow" {
   on = "push"
-  resolves = ["actions/action-builder/docker@master"]
+  resolves = ["Docker Tag"]
 }
 
 action "Docker Login" {
@@ -8,9 +8,16 @@ action "Docker Login" {
   secrets = ["DOCKER_REGISTRY_URL", "DOCKER_USERNAME", "DOCKER_PASSWORD"]
 }
 
-action "actions/action-builder/docker@master" {
+action "Docker Build" {
   uses = "actions/action-builder/docker@master"
   needs = ["Docker Login"]
   runs = "make"
   args = "build"
+}
+
+action "Docker Tag" {
+  uses = "actions/docker/tag@master"
+  needs = ["Docker Build"]
+  runs = "make"
+  args = "tag"
 }
