@@ -1,5 +1,5 @@
 export ROOT_DIR=$(CURDIR)
-export DOCKER_REPO=nickvanw
+export DOCKER_REPO=registry.roci.nvw.io
 
 MODULES=$(dir $(wildcard */Makefile))
 
