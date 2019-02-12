@@ -1,6 +1,6 @@
 workflow "New workflow" {
   on = "push"
-  resolves = ["Docker Tag"]
+  resolves = ["Docker Tag and Push"]
 }
 
 action "Docker Login" {
@@ -15,7 +15,7 @@ action "Docker Build" {
   args = "build"
 }
 
-action "Docker Tag" {
+action "Docker Tag and Push" {
   uses = "actions/action-builder/docker@master"
   needs = ["Docker Build"]
   runs = "make"
