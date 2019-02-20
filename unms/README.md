@@ -2,7 +2,7 @@
 
 This is a very rough cut of an all-in-one container for the Unifi `unms` app. As it's currently distributed, it's largely impossible to actually deploy on anything but a dedicated VM. This uses a bit of reverse engineering and some help from others that have done this to figure out the dependencies for the app, and tries to be as slim as possible. That means no `nginx` in front of Node, no `fluentd` for logs, and no `letsencrypt` for TLS. 
 
-Because the UNMS source isn't actually distributed, you'll have to figure out how to get it - it's located in `/home/app/unms` in the `unbnt/unms` image - currently this is building against 0.13.2.
+Because the UNMS source isn't actually distributed, you'll have to figure out how to get it - it's located in `/home/app/unms` in the `unbnt/unms` image - currently this is building against 0.13.3.
 
 ### Setup
 
