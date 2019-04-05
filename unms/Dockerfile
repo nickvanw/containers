@@ -14,7 +14,7 @@ RUN apt-get update \
   && mkdir -p /usr/share/man/man1 \
   && mkdir -p /usr/share/man/man7 \
   && apt-get -y install python build-essential rabbitmq-server postgresql-9.6 postgresql-contrib-9.6 postgresql-client-9.6 libpq-dev redis-server
-RUN cd /unms && npm install
+RUN cd /unms && npx npm@next install && npm install
 
 VOLUME ["/config"]
 EXPOSE 8081 8082
